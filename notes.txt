@@ -1,0 +1,23 @@
+create new UI box:
+     _______________________________________
+    |     ___________________________       |
+    |    [_|_________________________]      |
+    |                                       |
+    |            [   Cancel  ] [  OK  ]     |
+    |_______________________________________|
+
+buttons will be stored in an array, a button has a callback function with default callbacks such as an OK event
+the content of the box will be stored in the template's `content` property in HTML format
+
+the button's callback will be able to manipulate the content of the box
+
+create function that will execute dialog as though it were synchronous.
+    async function () {
+        await new UI(...).get()
+    }
+    1. user creates dialog
+    2. user calls get function.
+    3. ui box is shown asynchronously.
+    4. user awaits submittion ( or cancel ) of UI box.
+
+    
