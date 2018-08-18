@@ -65,6 +65,7 @@ __Arguments__
 __Example__
 
 _Alert_ 
+
     function alert (string) {
       new UIbox(new template({content:`${string}`, buttons:[new button("OK", 'ok')]}), "Alert").show();`
     }
@@ -72,6 +73,7 @@ _Alert_
 Will display a dialog that closely mimics an `alert` call.
 
 _Confirm_ 
+
     async function confirm (string) {
 	    return await new UIbox(new template({content:`${string}`, buttons:[new button("OK", 'ok'), new button("Cancel", "cancel")]}), "Select one").get()
     }
@@ -79,6 +81,7 @@ _Confirm_
 Will display a dialog that closely mimics an `confirm` call.
 
 _Prompt_
+
     async function prompt (string) {
     	return await new UIbox(new template({content:`${string}<input name="text">`, buttons:[new button("OK", 'ok'), new button("Cancel", "cancel")]}), "Enter some text").get()
     }
