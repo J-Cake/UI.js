@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+}
+
+.uibox.display_area * {
+    font-family: "Segoe UI", "Roboto", "Google Sans", "Open Sans", Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+}
+.uibox.box.wrapper {
+    box-shadow: #999 0 0 1px 1px;
+    width: 500px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    position: absolute; /* this is important because they will otherwise move next to each other, rather than stacking like a good set of boys */
+    float: left;
+    left: calc(50vw - 250px);
+}
+.uibox.box.wrapper .uibox.box.header {
+    font-size: 14pt;
+    user-select: none;
+}
+.uibox.box.wrapper .uibox.box.content {
+    /* display: flex; */
+    margin-top: 20px
+}
+.uibox.box.wrapper .uibox.box.content * {
+    width: 100%;
+    margin: 5px 0 5px 0;
+}
+.uibox.box.wrapper .uibox.box.content input {
+    padding: 5px;
+    border: 1px solid cornflowerblue;
+    border-radius: 4px;
+    outline: none;
+}
+.uibox.box.wrapper .uibox.box.buttons {
+    margin-top: 20px;
+    width: 100%;
+    clear: both;
+    display: both;
+    overflow: auto;
+}
+.uibox.box.wrapper .uibox.box.buttons button.uibox.button {
+    right: 0;
+    float: right;
+    padding: 10px;
+    background: dodgerblue;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    min-width: 100px;
+    outline: none;
+    cursor: pointer;
+    margin: 5px 10px 0 10px;
+}
+.uibox.box.wrapper .uibox.box.buttons button.uibox.button:active {
+    background: #4472e9;
+}
