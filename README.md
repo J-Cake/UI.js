@@ -67,7 +67,7 @@ __Example__
 _Alert_ 
 
     function alert (string) {
-      new UIbox(new template({content:`${string}`, buttons:[new button("OK", 'ok')]}), "Alert").show();`
+      new UIbox(new template({content:`${string}`, buttons:[new button("OK", 'ok')]}), "Alert").show();
     }
     
 Will display a dialog that closely mimics an `alert` call.
