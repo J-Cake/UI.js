@@ -38,7 +38,7 @@ __The `template` Class__
 This class is used as a skeleton for outlining the content of the box.
 It has no methods but takes 1 parameter: `templateObj`, an object containing the required information.
  
-it takes a `button` property, a `content` property, and optionally, a `tyoe` and a `settings` property.
+It takes a `button` property, a `content` property, and optionally, a `type` and a `settings` property.
 > __Note:__ The optional parameters are unimplemented for now.
  
 The `buttons` property is an array of `button` instances.
@@ -58,7 +58,7 @@ __Arguments__
 
 3. `closeDialog`: boolean, states whether the dialog closes when clicked.
 
-4. `submitsForm`: boolean, states wheter the dialog is resolved when clicked.
+4. `submitsForm`: boolean, states whether the dialog is resolved when clicked.
 
 > __Note:__ the `callback` parameter can be a string of either `ok` or `cancel`. These are button presets that act as ok and cancel behaviours.
 
