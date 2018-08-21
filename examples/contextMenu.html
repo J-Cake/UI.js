@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="../ui.css">
+        <script src="../ui.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            let menu = new UIbox(new template({content: {
+                "New File": e => { console.log ('new file') },
+                "Open File": e => { console.log('open file') },
+                "Save File": e => { console.log('save file') },
+                "spacer": null,
+                "Clear All": e => { console.log('clearing everything') },
+            }, type: 'menu', settings: {contentIsArray: true}}))
+        </script>
+
+        <script type="text/javascript">
+            document.addEventListener('contextmenu', e => {
+                menu.show(e.clientX, e.clientY);
+                e.preventDefault();
+            })
+        </script>
+        <script type="text/javascript">
+            document.addEventListener('click', e => {
+                menu.unrender();
+            })
+        </script>
+    </body>
+</html>

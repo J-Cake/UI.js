@@ -1,18 +1,29 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vw;
 }
 
 .uibox.display_area * {
     font-family: "Segoe UI", "Roboto", "Google Sans", "Open Sans", Arial, Helvetica, sans-serif;
     font-weight: lighter;
 }
+/* Global */
+.uibox.wrapper {
+    position: fixed;
+}
+/* Dialog Box */
 .uibox.box.wrapper {
     box-shadow: #999 0 0 1px 1px;
     width: 500px;
     background: #fff;
     border-radius: 20px;
     padding: 20px;
-    position: absolute; /* this is important because they will otherwise move next to each other, rather than stacking like a good set of boys */
+    position: fixed; /* this is important because they will otherwise move next to each other, rather than stacking like a good set of boys */
     float: left;
     left: calc(50vw - 250px);
 }
@@ -56,4 +67,73 @@
 }
 .uibox.box.wrapper .uibox.box.buttons button.uibox.button:active {
     background: #4472e9;
+}
+/* Toast Styling */
+.uibox.toast.wrapper {
+    min-width: 200px;
+    max-width: 800px;
+    background: #ccc;
+    border-radius: 500px;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+
+    bottom: 20px;
+}
+/* Notification styling */
+.uibox.notification.wrapper {
+    background: #434c4e;
+    color: #eee;
+    width: 100%;
+    padding: 10px;
+    overflow: auto;
+}
+.uibox.notification .message {
+    font-size: 15pt;
+    float: left;
+    width: calc(100% - 60px);
+}
+
+.uibox .global.close {
+    width: 20px;
+    height: 20px;
+    display: block;
+    border: none;
+    border-radius: 500px;
+    float: right;
+    position: relative;
+    right: 20px;
+    /* box-shadow: #999 0 0 1px 1px; */
+    background: url(./res/close.svg);
+    background-size: contain;
+    outline: none;
+    /* background: transparent; */
+}
+.uibox .global.close:active {
+    box-shadow: #999 0 0 1px 1px;
+}
+/* Menu styling */
+.uibox.menu.wrapper {
+    max-width: 500px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 20px;
+}
+.uibox.menu li {
+    list-style-type: none;
+    padding: 10px;
+}
+.uibox.menu li:hover {
+    background: #eee;
+}
+.uibox.menu hr {
+    border: none;
+    border-bottom: 1px solid #aaa;
 }

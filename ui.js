@@ -9,19 +9,34 @@ class UIbox {
 		this.oncancel = oncancel;
 
 		this.template.parent = this;
-		this.template.setBtnBehavoiurs();
+		this.showing = false;
 
-		this.submittionPromise;
+		// try {this.template.setBtnBehavoiurs()}catch{null}
+		this.template.setBtnBehavoiurs()
 
+		this.self;
 	}
 
-	show () {
-		if(document.querySelector(".uibox.display_area") == null)
-			document.body.innerHTML += `<div class="uibox display_area"></div>`;
-		this.drawArea = document.querySelector(".uibox.display_area");
+	show (x, y) {
+		if (!this.showing) {
+			if(document.querySelector(".uibox.display_area") == null) {
+				document.body.innerHTML += `<div class="uibox display_area"></div>`;
+			}
+			this.drawArea = document.querySelector(".uibox.display_area");
 
-		this.drawArea.innerHTML += this.renderTemplate(this.template);
-		this.addBtnListeners();
+			this.drawArea.innerHTML += this.renderTemplate(this.template);
+
+			this.self = [...this.drawArea.querySelectorAll('.uibox.wrapper')].pop();
+			this.self.style.top = y + 'px' || 'auto';
+			this.self.style.left = x + 'px' || 'auto';
+
+			this.showing = true;
+
+			this.addBtnListeners()
+		} else {
+			this.unrender();
+			this.show(x, y);
+		}
 	}
 
 	get () {
@@ -48,44 +63,91 @@ class UIbox {
 	}
 
 	renderTemplate (template) {
-		let templateHTML = `<br/><div class='uibox box wrapper' id='box${Math.floor(document.querySelector(".uibox.display_area").children.length / 2) + 1}'><span class='uibox box header'>${this.name}</span><div class='uibox box content'>`
-		templateHTML += template.content + `</div><div class="uibox box buttons">`;
-		template.buttons.forEach((button, index) => {
-			templateHTML += `<button class='uibox button', id='btn${this.drawArea.querySelectorAll('.buttons button').length + index + 1}'>${button.text}</button>`;
-		})
-
+		let templateHTML;
+		switch (template.type) {
+			case 'box':
+				templateHTML = `<br/><div class='uibox box wrapper' id='box${Math.floor(document.querySelector(".uibox.display_area").children.length / 2) + 1}'><span class='uibox box header'>${this.name}</span><div class='uibox box content'>`
+				templateHTML += template.content + `</div><div class="uibox box buttons">`;
+				template.buttons.forEach((button, index) => {
+					templateHTML += `<button class='uibox button', id='btn${this.drawArea.querySelectorAll('.buttons button').length + index + 1}'>${button.text}</button>`;
+				})
+				break;
+			case 'toast':
+				templateHTML = `<br/><div class='uibox toast wrapper'>${template.content}</div>`
+				setTimeout(e => {
+					this.unrender()
+					try { this.onconfirm(); } catch { null }
+				}, template.settings.duration || 2000);
+				break;
+			case 'notification':
+				templateHTML = `<div class='uibox notification wrapper'><div class='uibox notification message'>${template.content}</div><button class='uibox global close'></button></div>`
+				setTimeout(e => {
+					this.unrender()
+				}, template.settings.duration || 5000);
+				break;
+			case 'menu':
+				templateHTML = `<div class='uibox menu wrapper'><ul class='uibox menu container'>`
+				let keys = Object.keys(this.template.content)
+				keys.forEach (key => {
+					templateHTML += key != 'spacer' ? `<li class="uibox menu option"><span class='uibox menu option caption'>${key}</span></li>` : `<hr/>`
+				})
+		}
 		return templateHTML + `</div></div>`
 	}
 
 	addBtnListeners() {
-		this.self = [...this.drawArea.querySelectorAll('.uibox.box.wrapper')].pop();
-		let buttons = [...this.self.querySelector('.buttons').children];
-		// BUG: Only one Dialog can be open at a time, otherwise, dialogs that are not the first cannot be closed, the event listener is not being applied.
-		buttons.forEach((button, i) => {
-			if (button) {
-				button.addEventListener('click', e => {
-					this.template.buttons[i].click();
-					try {
-						if (this.template.buttons[i].submitsForm) this.resolve();
-						else this.reject();
-					} catch {null}
+		// type of dialog does not matter, just set all callbacks.
+		try {
+			let buttons = [...this.self.querySelector('.buttons').children];
+			// BUG: Only one Dialog can be open at a time, otherwise, dialogs that are not the first cannot be closed, the event listener is not being applied.
+			buttons.forEach((button, i) => {
+				if (button) {
+					button.addEventListener('click', e => {
+						this.template.buttons[i].click();
+						try {
+							if (this.template.buttons[i].submitsForm) this.resolve();
+							else this.reject();
+						} catch {null}
 
-				}, false)
-			}
-		});
+					}, false)
+				}
+			});
+		}catch{null}
+		if (this.template.type == 'notification') {
+			this.self.querySelector('.notification.message').addEventListener('click', e => {
+				try{this.onconfirm()}catch{null}
+				this.unrender();
+			})
+			this.self.querySelector('.global.close').addEventListener('click', e => {
+				try{this.oncancel()}catch{null}
+				this.unrender();
+			})
+		} else if (this.template.type == "menu") {
+			[...this.self.querySelector('.uibox.menu').children].forEach((option, index) => {
+				if (option.children.length != 0) { // filter out HR elements
+					option.addEventListener('click', e => {
+						this.template.content[Object.keys(this.template.content)[index]]()
+						this.unrender()
+					})
+				}
+			})
+		}
 	}
 
 	unrender () {
-		this.self.outerHTML = ""
+		if (this.showing) {
+			this.self.outerHTML = ""
+			this.showing = false;
+		}
 	}
 }
 
 class template {
 	constructor (templateObj) {
-		this.buttons = templateObj.buttons;
+		this.buttons = templateObj.buttons || [];
 		this.content = templateObj.content;
-		this.type = templateObj.type;
-		this.settings = templateObj.settings;
+		this.type = templateObj.type || "box";
+		this.settings = templateObj.settings || [];
 	}
 
 	setBtnBehavoiurs() {
@@ -133,7 +195,3 @@ class button {
 		if (this.closeDialog) this.parent.unrender();
 	}
 }
-
-// function alert (string) {
-// 	new UIbox(new template({content:`string`, buttons:[new button("OK", 'ok')]}), "Alert").show();
-// }
