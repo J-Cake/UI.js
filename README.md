@@ -10,7 +10,7 @@ __The `UIbox` Class__
 
 This class contains the methods for interacting with your program such as showing and destroying the box.
 
-The constructor takes 4 parameters, an instance of `template` (required), a name, a confirm callback and a cancel callback.
+The constructor takes 4 parameters, an instance of `template` (required), a name, an onShow callback, an onDestory callback, a confirm callback and cancel callback.
 
 __Arguments__
 
@@ -20,9 +20,13 @@ __Arguments__
   
 2. `name`: the name is given to the box as a header. it is displayed as a string in the box's head.
 
-3. `confirm callback`: this will be executed when the user clicks the provided `OK` button.
+3. `onShow callback`: fired when the dialog is drawn to the screen.
 
-4. `cancel callback`: this will be executed when the user clicks the provided `CANCEL` button.
+4. `onDestroy callback`: called when the box is undrendered.
+
+5. `confirm callback`: this will be executed when the user clicks the provided `OK` button.
+
+6. `cancel callback`: this will be executed when the user clicks the provided `CANCEL` button.
 
 __Methods__
 
@@ -39,10 +43,16 @@ This class is used as a skeleton for outlining the content of the box.
 It has no methods but takes 1 parameter: `templateObj`, an object containing the required information.
  
 It takes a `button` property, a `content` property, and optionally, a `type` and a `settings` property.
-> __Note:__ The optional parameters are unimplemented for now.
+> __Note:__ The `settings` parameter is unimplemented for now.
  
 The `buttons` property is an array of `button` instances.
 The `content` property is a HTML layout that will be displayed between the title and button bar.
+The `type` property is a string that specifies the appearance and behaviour of the box. The options include
+
+* box
+* notification
+* menu
+* toast
 
 __The `button` Class__
 
@@ -66,7 +76,7 @@ __Example__
 
 _Alert_ 
 
-    function alert (string) {
+    async function alert (string) {
       new UIbox(new template({content:`${string}`, buttons:[new button("OK", 'ok')]}), "Alert").show();
     }
     
