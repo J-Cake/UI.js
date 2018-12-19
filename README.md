@@ -10,7 +10,7 @@ __The `UIbox` Class__
 
 This class contains the methods for interacting with your program such as showing and destroying the box.
 
-The constructor takes 4 parameters, an instance of `template` (required), a name, an onShow callback, an onDestory callback, a confirm callback and cancel callback.
+The constructor takes 6 parameters, an instance of `template` (required), a name, an onShow callback, an onDestory callback, a confirm callback and cancel callback.
 
 __Arguments__
 
